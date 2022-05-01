@@ -1,0 +1,26 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if proces_verbal %}| Procès-verbal : {{proces_verbal.date_pv}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+
+<div>
+        <h1>Suppression du procès-verbal daté du {{proces_verbal.date_pv.split("-")[2]}}-{{proces_verbal.date_pv.split("-")[1]}}-{{proces_verbal.date_pv.split("-")[0]}}</h1>
+</div>
+<form class="form" style="margin-bottom:20px" method="POST" action="{{url_for('suppression_proces_verbal', id=proces_verbal.id)}}">
+ <div class="text-center" style="place-content:center">
+      <div>
+          <p value="{{proces_verbal.id}}">Êtes-vous sûr de vouloir supprimer ce procès-verbal ?</p>
+      </div>
+      <div>
+           <button type="submit" class="btn btn-info text-center">Confirmer</button>
+      </div>
+      </div>
+</form>
+
+<p><a href="{{url_for('proces_verbal', id=proces_verbal.id)}}">Retour sur la page du procès-verbal</a><br/>
+<a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+
+{% endblock %}

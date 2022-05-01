@@ -1,0 +1,51 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if personne %}| Personne : {{personne.prenom}} {{personne.nom}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+    {% if personne %}
+        <h1>{{personne.prenom}} {{personne.nom}}</h1>
+
+        <p> Qualité :
+        {% if personne.qualite %}
+            {{personne.qualite }}
+        {% else %} Non renseignée
+        {% endif %}</p>
+
+        {% if personne.qualite == 'commissaire de police' %}
+            <p> {% if adresses|length ==1 %}Adresse de l'hôtel de police :
+                {% elif adresses|length > 1 %}Adresses de l'hôtel de police :
+                {% else %}Aucun hôtel de police n'est enregistré. {% endif %}
+        {% else %} <p> Adresse de domicile : {% endif %}
+        {% if personne.adresses %}</p>
+            <ul>
+            {% for adresse in adresses %}
+                 <li>{{adresse.rue}} (Quartier {{adresse.quartier}})</li>
+            {% endfor %}
+            </ul>
+            {% else %} Non renseignée </p> {% endif %}
+
+        {% if proces_verbaux %}
+            {% if personne.qualite == 'commissaire de police' %}
+                <p>Affaire(s) traitée(s) par l'officier :</p>
+            {% else %} <p>Plainte(s) de la victime :</p>{% endif %}
+            <ul>
+            {% for proces_verbal in proces_verbaux %}
+                <li><a href="{{url_for('proces_verbal', id=proces_verbal.id)}}">{{proces_verbal.date_pv}}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %} <p>Aucun procès-verbal n'est enregistré pour ce commissaire.</p> {% endif %}
+
+        <div  class="text-center" style="place-content:center; margin-bottom:20px;">
+            <a class="btn btn-info text-center" href="{{url_for('modification_personne', id=personne.id)}}">Modifier les informations</a>
+            <a class="btn btn-info text-center" href="{{url_for('suppression_personne', id=personne.id)}}">Supprimer l'individu</a>
+        </div>
+
+        <p><a href="{{url_for('personnes_liste')}}">Retour à la liste des individus</a>
+    {% else %}
+        <p>La base de données est en cours de constitution</p>
+    {% endif %}
+    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+{% endblock %}

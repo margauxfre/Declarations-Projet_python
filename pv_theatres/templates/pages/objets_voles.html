@@ -1,0 +1,36 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    | Affaires de vol par type d'objets
+{% endblock %}
+
+{% block corps %}
+{% if objets %}
+
+    <h1>Affaires de vol par type d'objets</h1>
+
+    <p>Il y a {{objets|length}} types d'objets déclarés volés à la police.</p>
+
+
+    {% for objet in objets %}
+        <p> Voir les procès-verbaux enregistrés pour vol de <a href="{{url_for('objet_vole_type', id=objet.id)}}">{{objet.type.lower()}}</a> :</p>
+        <ul>
+        {% set ns = namespace(empty=true) %}
+            {% for proces_verbal in proces_verbaux %}
+                {% if proces_verbal.id_objet == objet.id %}
+                    <li><a href="{{url_for('proces_verbal', id=proces_verbal.id)}}">{{proces_verbal.date_pv}}</a></li>
+                    {% set ns.empty = false %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% if ns.empty == true %}
+            <p>Aucun procès-verbal n'est enregistré.</p>
+        {% endif %}
+    {% endfor %}
+
+    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+    {% else %}
+        <p>La base de données est en cours de constitution</p>
+    {% endif %}
+
+{% endblock %}

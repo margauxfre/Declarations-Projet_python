@@ -1,0 +1,31 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+{%if objet %}| Modifier l'objet : {{objet.type}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+
+<div>
+        <h1>Modifier l'objet de type {{objet.type}}</h1>
+        <p>Pour mettre à jour le type de l'objet, complétez le formulaire et cliquez sur "Modifier".</p>
+
+</div>
+<form class="form" method="POST" action="{{url_for('modification_objet', id=objet.id)}}">
+    <div class="form-group row">
+      <label for="type" class="col-sm-2 col-form-label">Type</label>
+      <div class="col-sm-10">
+       <input type="text" class="form-control" name="type"
+        placeholder="Renseignez le type de l'objet avec une majuscule."/>
+      </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-info text-center">Modifier</button>
+    </div>
+</form>
+
+<p><a href="{{url_for('objet_vole_type', id=objet.id)}}">Retour sur la page de l'objet</a></p>
+<p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+
+{% endblock %}

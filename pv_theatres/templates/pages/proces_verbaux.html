@@ -1,0 +1,42 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    | Index des procès-verbaux
+{% endblock %}
+
+{% block corps %}
+    {% if proces_verbaux %}
+    <h1>Index des procès-verbaux</h1>
+    <p>Il y a {{proces_verbaux.total}} documents enregistrés :</p>
+         <ul>
+            {% for proces_verbal in proces_verbaux.items %}
+                <li><a href="{{url_for('proces_verbal', id=proces_verbal.id)}}">{{proces_verbal.date_pv}}</a></li>
+            {% endfor %}
+        </ul>
+
+        <nav aria-label="research-pagination">
+            <ul class="pagination">
+                {%- for page in proces_verbaux.iter_pages() %}
+                    {% if page %}
+                        {% if page != proces_verbaux.page %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('proces_verbaux_liste', page=page) }}">{{page}}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item active disabled">
+                                <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">...</a>
+                        </li>
+                    {% endif %}
+                {%- endfor %}
+            </ul>
+        </nav>
+    {% else %}
+        <p>La base de données est en cours de constitution</p>
+    {% endif %}
+
+{% endblock %}

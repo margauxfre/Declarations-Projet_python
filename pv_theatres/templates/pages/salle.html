@@ -1,0 +1,38 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if salle %}| Salle : {{salle.nom_salle}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+    {% if salle %}
+        <h1>{{salle.nom_salle}}</h1>
+
+        Dates d'occupation de la salle : {{salle.dates_occupation_salle}} (<a href="{{url_for('theatre', id=institution.id)}}">{{institution.institution}}</a>)
+
+        <p>Voici les affaires de vol s'étant déroulées autour ou dans la salle :</p>
+        <ul>
+        {% set ns = namespace(empty=true) %}
+        {% for proces_verbal in proces_verbaux %}
+            {% if proces_verbal.id_theatre == salle.id_institution %}
+                {% if proces_verbal.date_pv >= salle.dates_occupation_salle.split("-")[0] and proces_verbal.date_pv <= salle.dates_occupation_salle.split("-")[1] %}
+                    <li><a href="{{url_for('proces_verbal', id=proces_verbal.id)}}">{{proces_verbal.date_pv}}</a></li>
+                    {% set ns.empty = false %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </ul>
+        {% if ns.empty == true %}
+        <p>Aucun procès-verbal n'est enregistré.</p>
+        {% endif %}
+
+        <div  class="text-center" style="place-content:center; margin-bottom:10px;">
+            <a class="btn btn-info text-center" href="{{url_for('modification_salle', id=salle.id)}}">Modifier des informations sur la salle</a>
+        </div>
+
+        <p><a href="{{url_for('carte')}}">Retour à la carte</a>
+    {% else %}
+        <p>La base de données est en cours de constitution</p>
+    {% endif %}
+    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+{% endblock %}

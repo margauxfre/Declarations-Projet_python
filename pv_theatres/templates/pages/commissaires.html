@@ -1,0 +1,48 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    | Index des commissaires de police
+{% endblock %}
+
+{% block corps %}
+{% if commissaires %}
+
+    <h1>Index des commissaires de police</h1>
+
+    <p>Il y a {{commissaires.total}} commissaires enregistrés.</p>
+
+    <ul>
+    {% for commissaire in commissaires.items %}
+        <li><a href="{{url_for('personne', id=commissaire.id)}}">{{commissaire.prenom}} {{commissaire.nom}}</a></li>
+    {% endfor %}
+    </ul>
+
+     <nav aria-label="research-pagination">
+            <ul class="pagination">
+                {%- for page in commissaires.iter_pages() %}
+                    {% if page %}
+                        {% if page != commissaires.page %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('commissaires_liste', page=page) }}">{{page}}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item active disabled">
+                                <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">...</a>
+                        </li>
+                    {% endif %}
+                {%- endfor %}
+            </ul>
+        </nav>
+
+    <p><a href="{{url_for('personnes_liste')}}">Retour à la liste des individus</a></p>
+    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+    {% else %}
+        <p>La base de données est en cours de constitution</p>
+    {% endif %}
+
+{% endblock %}

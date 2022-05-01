@@ -1,0 +1,52 @@
+{% extends "conteneur.html" %}
+
+    {% block titre %}
+        {%if proces_verbal %}| Procès-verbal : {{proces_verbal.date_pv}} {% endif %}
+    {% endblock %}
+
+    {% block corps %}
+        {% if proces_verbal %}
+                <h1>Procès-verbal daté du {{proces_verbal.date_pv.split("-")[2]}}-{{proces_verbal.date_pv.split("-")[1]}}-{{proces_verbal.date_pv.split("-")[0]}}</h1>
+
+                    <p> Voici les informations sur le procès-verbal : </p>
+
+                            <dl>
+                            <dt> Cote :</dt>
+                            <dd>{% if source %} {{source.cote}} (Archives nationales)
+                                {% else %} Non renseignée
+                                {% endif %}</dd>
+                            <dt> Commissaire en charge de l'affaire :</dt><dd>
+                                {% if commissaire %}<a href="{{url_for('personne', id=commissaire.id)}}">{{commissaire.prenom}} {{commissaire.nom}}</a>
+                                {% else %} Non renseigné</dd>
+                                {% endif %}
+                            <dt> Victime du vol :</dt>
+                            <dd>{% if victime %}<a href="{{url_for('personne', id=victime.id)}}">{{victime.prenom}} {{victime.nom}}</a>
+                                {% else %} Non renseignée
+                                {% endif %}</dd>
+                            {% if institution %}
+                            <dt> Lieu du vol :</dt>
+                                {% for salle in theatre %}
+                                    {% if proces_verbal.date_pv >= salle.dates_occupation_salle.split("-")[0] and proces_verbal.date_pv <= salle.dates_occupation_salle.split("-")[1] %}
+                                        <dd>{{salle.nom_salle}}
+                                    {% endif %}
+                                {% endfor %}
+                            (<a href="{{url_for('theatre', id=institution.id)}}">{{institution.institution}}</a>)</dd>
+                            {% endif %}
+                            <dt> Objet volé :</dt>
+                            <dd>{% if objet %}<a href="{{url_for('objet_vole_type', id=objet.id)}}">{{objet.type}}</a>
+                                {% else %}Non renseigné
+                                {% endif %}</dd>
+                            </dl>
+
+        <div  class="text-center" style="place-content:center; margin-bottom:20px;">
+            <a class="btn btn-info text-center" href="{{url_for('modification_proces_verbal', id=proces_verbal.id)}}">Modifier le procès-verbal</a>
+            <a class="btn btn-info text-center" href="{{url_for('suppression_proces_verbal', id=proces_verbal.id)}}">Supprimer le procès-verbal</a>
+        </div>
+
+
+               <p><a href="{{url_for('proces_verbaux_liste')}}">Retour à la liste des procès-verbaux</a></p>
+        {% else %}
+                <p>Ce procès-verbal n'est pas renseigné dans la base de données.</p>
+        {% endif %}
+            <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+{% endblock %}

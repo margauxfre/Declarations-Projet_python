@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Déclarations {%block titre %}{%endblock%}</title>
+        {% include "partials/metadata.html" %}
+        {% include "partials/css.html" %}
+        {% include "partials/js.html" %}
+    </head>
+    <body>
+    <nav class="navbar navbar-expand-md fixed-top justify-content-between hero">
+          <a class="navbar-brand menu" href="{{url_for('accueil')}}">Accueil</a>
+          <ul class="navbar-nav mr-auto">
+             <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle navbar-brand menu" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Index</a>
+                    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                        <li class="dropdown-item"><a href="{{url_for('proces_verbaux_liste')}}">Index des procès-verbaux</a></li>
+                        <li class="dropdown-item"><a href="{{url_for('personnes_liste')}}">Index des individus</a></li>
+                        <li class="dropdown-item"><a href="{{url_for('theatre_liste')}}">Index des institutions théâtrales</a></li>
+                        <li class="dropdown-item"><a href="{{url_for('adresses_liste')}}">Index des rues</a></li>
+                        <li class="dropdown-item"><a href="{{url_for('objets_voles_liste')}}">Index des objets volés</a></li>
+                        <li class="dropdown-item"><a href="{{url_for('sources_liste')}}">Index des sources archivistiques</a></li>
+                    </ul>
+             </li>
+             <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle navbar-brand menu" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enrichir la base de données</a>
+                    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                        <li class="dropdown-item"><a href="{{url_for('ajout_proces_verbal')}}">Ajouter un procès-verbal</a></li>
+                        <li class="dropdown-item"><a href="{{url_for('ajout_personne')}}">Ajouter une personne</a></li>
+                        <li class="dropdown-item"><a href="{{url_for('ajout_adresse')}}">Ajouter une adresse</a></li>
+                        <li class="dropdown-item"><a href="{{url_for('ajout_objet')}}">Ajouter un objet</a></li>
+                        <li class="dropdown-item"><a href="{{url_for('ajout_source')}}">Ajouter une source</a></li>
+                    </ul>
+             </li>
+             <a class="navbar-brand menu" href="{{url_for('carte')}}">Carte des théâtres</a>
+          </ul>
+            <form class="form-inline" action="{{url_for("recherche")}}" method="GET">
+                <input class="form-control" name="keyword" type="search" placeholder="Recherche rapide" aria-label="Recherche">
+                <button class="btn btn-info" type="submit">Rechercher</button>
+            </form>
+            <ul>
+                 {% if not current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link menu" href="{{url_for("inscription")}}">Inscription</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link menu" href="{{url_for("connexion")}}">Connexion</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link menu" href="{{url_for("deconnexion")}}">Déconnexion ({{current_user.user_nom}})</a>
+              </li>
+            {% endif %}
+            </ul>
+        </nav>
+        {% block afternav %}{%endblock%}
+      <div class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <div class="row" style="margin-top:30px">
+              <div class="col">
+                {% for category, message in messages %}
+                  <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
+                {% endfor %}
+              </div>
+          </div>
+          {% endif %}
+        {% endwith %}
+        <div class="row">
+            <div class="col">
+        {% block corps %}
+        {% endblock %}
+            </div>
+        </div>
+      </div>
+
+    </body>
+
+    <footer class="fixed-bottom" style="background-color:#ffe4b5;">
+        <div style="text-align:center; margin-top:20px;">
+	        <figure>
+		        <a href="http://www.chartes.psl.eu/fr/cursus/master-technologies-numeriques-appliquees-histoire"><img src="http://www.chartes.psl.eu/sites/all/themes/enc_base/images/public/logo-ecole-nationale-des-chartes-header.png" alt="" width="170"></a>
+	        </figure>
+        </div>
+        <div style="text-align: center;">
+	    <p style="font-size:11px">© Margaux Faure, Master 2 "Technologies numériques appliquées à l'histoire", 2022</p>
+    </footer>
+</html>

@@ -1,0 +1,78 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    | Ajouter un procès-verbal
+{% endblock %}
+
+{% block corps %}
+
+<div>
+   <h1>Ajouter un procès-verbal à la base de données</h1>
+   <p>Pour ajouter un nouveau procès-verbal, complétez le formulaire et cliquez sur "Ajouter".</p>
+</div>
+<form class="form" method="POST" action="{{url_for('ajout_proces_verbal')}}">
+    <div class="form-group row">
+      <label for="ajout_proces_verbal_date" class="col-sm-2 col-form-label">Date du procès-verbal</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ajout_proces_verbal_date"
+        placeholder="Format AAAA-MM-JJ"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_pv_id_source" class="col-sm-2 col-form-label">Cote</label>
+      <div class="col-sm-10">
+        <select name="ajout_pv_id_source" id="ajout_pv_id_source">
+        {% for source in sources %}
+            <option value="{{source.id}}">{{source.cote}}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_pv_id_theatre" class="col-sm-2 col-form-label">Institution théâtrale</label>
+      <div class="col-sm-10">
+        <select name="ajout_pv_id_theatre" id="ajout_pv_id_theatre">
+        {% for theatre in theatres %}
+            <option value="{{theatre.id}}">{{theatre.institution}}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_pv_id_commissaire" class="col-sm-2 col-form-label">Commissaire en charge de l'affaire</label>
+      <div class="col-sm-10">
+        <select name="ajout_pv_id_commissaire" id="ajout_pv_id_commissaire">
+        {% for commissaire in commissaires %}
+            <option value="{{commissaire.id}}">{{commissaire.prenom}} {{commissaire.nom}}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_pv_id_victime" class="col-sm-2 col-form-label">Victime</label>
+      <div class="col-sm-10">
+        <select name="ajout_pv_id_victime" id="ajout_pv_id_victime">
+        {% for victime in victimes %}
+            <option value="{{victime.id}}">{{victime.prenom}} {{victime.nom}}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_pv_id_objet" class="col-sm-2 col-form-label">Objet</label>
+      <div class="col-sm-10">
+        <select name="ajout_pv_id_objet" id="ajout_pv_id_objet">
+        {% for objet in objets %}
+            <option value="{{objet.id}}">{{objet.type}}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-info text-center">Ajouter</button>
+    </div>
+</form>
+
+<p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+
+{% endblock %}

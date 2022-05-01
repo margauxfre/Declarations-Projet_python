@@ -1,0 +1,81 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+{%if proces_verbal %}| Modifier le procès-verbal : {{proces_verbal.date_pv}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+
+<div>
+    <h1>Modifier le procès-verbal du {{proces_verbal.date_pv.split("-")[2]}}-{{proces_verbal.date_pv.split("-")[1]}}-{{proces_verbal.date_pv.split("-")[0]}}</h1>
+    <p>Pour mettre à jour le procès-verbal, complétez le formulaire et cliquez sur "Modifier".</p>
+    <p>Si la donnée recherchée n'est pas présente dans les listes déroulantes, veuillez d'abord l'enregistrer sur la page prévue à cet effet.</p>
+
+</div>
+<form class="form" method="POST" action="{{url_for('modification_proces_verbal', id=proces_verbal.id)}}">
+ <div class="form-group row">
+      <label for="date_pv" class="col-sm-2 col-form-label">Date du procès-verbal</label>
+      <div class="col-sm-10">
+       <input type="text" class="form-control" name="date_pv"
+        value="{{proces_verbal.date_pv}}"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_source" class="col-sm-2 col-form-label">Cote</label>
+      <div class="col-sm-10">
+        <select name="id_source" id="id_source">
+        {% for source in sources %}
+            <option value="{{source.id}}" {% if proces_verbal.id_source == source.id %}selected{% endif %}>{{source.cote}}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_theatre" class="col-sm-2 col-form-label">Institution théâtrale</label>
+      <div class="col-sm-10">
+        <select name="id_theatre" id="id_theatre">
+        {% for theatre in theatres %}
+            <option value="{{theatre.id}}" {% if proces_verbal.id_theatre == theatre.id %}selected{% endif %}>{{theatre.institution}}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_pv_id_commissaire" class="col-sm-2 col-form-label">Commissaire en charge de l'affaire</label>
+      <div class="col-sm-10">
+        <select name="id_commissaire" id="id_commissaire">
+        {% for commissaire in commissaires %}
+            <option value="{{commissaire.id}}" {% if proces_verbal.id_commissaire == commissaire.id %}selected{% endif %}>{{commissaire.prenom}} {{commissaire.nom}}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_victime" class="col-sm-2 col-form-label">Victime</label>
+      <div class="col-sm-10">
+        <select name="id_victime" id="id_victime">
+        {% for victime in victimes %}
+            <option value="{{victime.id}}" {% if proces_verbal.id_victime == victime.id %}selected{% endif %}>{{victime.prenom}} {{victime.nom}}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_objet" class="col-sm-2 col-form-label">Objet</label>
+      <div class="col-sm-10">
+        <select name="id_objet" id="id_objet">
+        {% for objet in objets %}
+            <option value="{{objet.id}}" {% if proces_verbal.id_objet == objet.id %}selected{% endif %}>{{objet.type}}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-info text-center">Modifier</button>
+    </div>
+</form>
+
+<p><a href="{{url_for('proces_verbal', id=proces_verbal.id)}}">Retour sur la page du procès-verbal</a><br/>
+<a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+
+{% endblock %}

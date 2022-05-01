@@ -1,0 +1,36 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    | Ajouter une adresse
+{% endblock %}
+
+{% block corps %}
+
+<div>
+        <h1>Ajouter une adresse à la base de données</h1>
+        <p>Pour ajouter une nouvelle adresse, complétez le formulaire et cliquez sur "Ajouter".</p>
+</div>
+<form class="form" method="POST" action="{{url_for('ajout_adresse')}}">
+    <div class="form-group row">
+    <label for="ajout_adresse_rue" class="col-sm-2 col-form-label">Rue</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="ajout_adresse_rue"
+            placeholder="Renseignez le nom de la rue."/>
+        </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_adresse_quartier" class="col-sm-2 col-form-label">Quartier</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ajout_adresse_quartier"
+        placeholder="Renseignez le nom du quartier."/>
+      </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-info text-center">Ajouter</button>
+    </div>
+</form>
+
+<p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    | Accueil
+{% endblock %}
+
+{% block corps %}
+    <h1 style="margin-top:30px;">Bienvenue</h1>
+
+    {% if proces_verbaux %}
+    <p>Cette application web propose de répertorier les procès-verbaux enregistrés pour vol dans des théâtres parisiens
+    entre 1770 et le début de la Révolution française. La base de données contient des documents conservés dans la série Y des Archives nationales,
+    série dédiée à la production écrite de la juridiction du Châtelet de Paris sous l'Ancien Régime.</p>
+    <p>Elle enregistre particulièrement des affaires s'étant déroulées dans les trois théâtres privilégiés de la monarchie :
+    la Comédie-Française, la Comédie-Italienne et l'Académie royale de musique (Opéra).</p>
+    <p>Il y a actuellement <a href="{{url_for('proces_verbaux_liste')}}">{{proces_verbaux|length}} procès-verbaux</a> enregistrés.</p>
+    <p>Vous pouvez contribuez à la base de données en cliquant sur "Enrichir la base de données" dans la barre de navigation.
+    Pour modifier ou supprimer une entrée, veuillez vous rendre sur la page où se trouve l'information.</p>
+
+    {% else %}
+        <p>La base de données est en cours de constitution</p>
+    {% endif %}
+
+{% endblock %}

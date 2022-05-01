@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
+<!-- lien à charger pour le fonctionnement de la carte -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
+
+<style type="text/css">
+            .hero  {
+                background-position: center center;
+                background-image: url({{url_for("static", filename="images/Odeon.jpg")}});
+            }
+            .nav-link {
+            display: block;
+            padding: 0.2rem 0rem;
+            }
+
+            .container {
+                margin-top: 80px;
+                margin-bottom: 100px;
+                text-align: justify;
+                }
+
+            .menu {
+                text-shadow: 1px 2px black;}
+
+</style>

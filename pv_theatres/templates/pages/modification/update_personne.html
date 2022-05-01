@@ -1,0 +1,58 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+{%if personne %}| Modifier les informations sur une personne : {{personne. prenom}} {{personne.nom}}{% endif %}
+{% endblock %}
+
+{% block corps %}
+
+<div>
+   <h1>Modifier les informations sur {{personne. prenom}} {{personne.nom}}</h1>
+   <p>Pour mettre à jour les informations sur cette personne, complétez le formulaire et cliquez sur "Modifier".</p>
+</div>
+<form class="form" method="POST" action="{{url_for('modification_personne', id=personne.id)}}">
+    <div class="form-group row">
+      <label for="update_prenom" class="col-sm-2 col-form-label">Prénom</label>
+      <div class="col-sm-10">
+       <input type="text" class="form-control" name="update_prenom"
+        value="{{personne.prenom}}"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_nom" class="col-sm-2 col-form-label">Nom</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="update_nom"
+        value="{{personne.nom}}"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="update_qualite" class="col-sm-2 col-form-label">Qualité/métier</label>
+      <div class="col-sm-10">
+       <input type="text" class="form-control" name="update_qualite"
+        value="{{personne.qualite}}"/>
+      </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-info text-center">Modifier</button>
+    </div>
+</form>
+
+<div>
+   <p> Adresse(s) enregistrée(s) pour l'individu:</p>
+       <ul>
+          {% for adresse in personne.adresses %}
+              <li>{{adresse.rue}} (Quartier {{adresse.quartier}}) <a href="{{url_for('suppression_adresse_personne', id=personne.id, adresse_id=adresse.id)}}">Supprimer l'adresse</a></li>
+          {% endfor %}
+       </ul>
+   </p>
+<div>
+
+<div style="margin-top:10px; margin-bottom:10px;">
+   <a class="btn btn-info text-center" href="{{url_for('lien_adresse_personne', id=personne.id)}}">Ajouter une adresse</a>
+</div>
+
+
+<p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+
+{% endblock %}

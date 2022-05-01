@@ -1,0 +1,26 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if objet %}| Objet : {{objet.type}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+
+<div>
+        <h1>Suppression de l'objet {{objet.type}}</h1>
+</div>
+<form class="form" style="margin-bottom:20px" method="POST" action="{{url_for('suppression_objet', id=objet.id)}}">
+ <div class="text-center" style="place-content:center">
+      <div>
+          <p value="{{objet.id}}">Êtes-vous sûr de vouloir supprimer cet objet ?</p>
+      </div>
+      <div>
+           <button type="submit" class="btn btn-info text-center">Confirmer</button>
+      </div>
+      </div>
+</form>
+
+<p><a href="{{url_for('objet_vole_type', id=objet.id)}}">Retour sur la page de l'objet</a></p>
+<p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+
+{% endblock %}

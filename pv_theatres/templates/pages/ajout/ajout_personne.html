@@ -1,0 +1,40 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    | Ajouter une personne
+{% endblock %}
+
+{% block corps %}
+
+<div>
+     <h1>Ajouter une personne à la base de données</h1>
+     <p>Pour ajouter une nouvelle personne, complétez le formulaire et cliquez sur "Ajouter".</p>
+</div>
+<form class="form" method="POST" action="{{url_for('ajout_personne')}}">
+    <div class="form-group row">
+      <label for="ajout_personne_nom" class="col-sm-2 col-form-label">Nom</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ajout_personne_nom" placeholder="Nom de la personne"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_personne_prenom" class="col-sm-2 col-form-label">Prénom</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ajout_personne_prenom" placeholder="Prénom de la personne"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_personne_qualite" class="col-sm-2 col-form-label">Qualité / Métier<br/> Vide si inconnu</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ajout_personne_qualite"
+        placeholder="Qualité ou métier de la personne (ex : commissaire de police, bourgeois de Paris )"/>
+      </div>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-info text-center">Ajouter</button>
+    </div>
+</form>
+
+<p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+
+{% endblock %}

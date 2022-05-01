@@ -1,0 +1,37 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if objet %}| Objet : {{objet.type}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+    {% if objet %}
+    <h1> {{objet.type}}</h1>
+
+    <p> Voir les procès-verbaux enregistrés pour vol de {{objet.type.lower()}} :</p>
+        <ul>
+        {% set ns = namespace(empty=true) %}
+        {% for proces_verbal in proces_verbaux %}
+            {% if proces_verbal.id_objet == objet.id %}
+                <li><a href="{{url_for('proces_verbal', id=proces_verbal.id)}}">{{proces_verbal.date_pv}}</a></li>
+                {% set ns.empty = false %}
+            {% endif %}
+        {% endfor %}
+        </ul>
+        {% if ns.empty == true %}
+            <p>Aucun procès-verbal n'est enregistré.</p>
+        {% endif %}
+
+        <div  class="text-center" style="place-content:center">
+            <a class="btn btn-info text-center" href="{{url_for('modification_objet', id=objet.id)}}">Modifier le type de l'objet</a>
+            <a class="btn btn-info text-center" href="{{url_for('suppression_objet', id=objet.id)}}">Supprimer l'objet</a>
+        </div>
+
+
+    <p><a href="{{url_for('objets_voles_liste')}}">Retour à la liste des objets volés</a>
+
+    {% else %}
+        <p>La base de données est en cours de constitution</p>
+    {% endif %}
+    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+{% endblock %}

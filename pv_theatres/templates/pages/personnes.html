@@ -1,0 +1,51 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    | Index des personnes
+{% endblock %}
+
+{% block corps %}
+{% if personnes %}
+
+    <h1>Index des individus</h1>
+
+    <nav class="navbar">
+        <a class="btn btn-sm" type="button" href="{{url_for('commissaires_liste')}}">Liste des commissaires de police</a>
+    </nav>
+
+    <p>Il y a {{personnes.total}} individus enregistrés.</p>
+
+    <ul>
+    {% for personne in personnes.items %}
+        <li><a href="{{url_for('personne', id=personne.id)}}">{{personne.nom}} {{personne.prenom}}</a></li>
+    {% endfor %}
+    </ul>
+
+     <nav aria-label="research-pagination">
+            <ul class="pagination">
+                {%- for page in personnes.iter_pages() %}
+                    {% if page %}
+                        {% if page != personnes.page %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('personnes_liste', page=page) }}">{{page}}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item active disabled">
+                                <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">...</a>
+                        </li>
+                    {% endif %}
+                {%- endfor %}
+            </ul>
+        </nav>
+
+    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+    {% else %}
+        <p>La base de données est en cours de constitution</p>
+    {% endif %}
+
+{% endblock %}

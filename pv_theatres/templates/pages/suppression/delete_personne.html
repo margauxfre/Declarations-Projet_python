@@ -1,0 +1,26 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if personne %}| Personne : {{personne.prenom}} {{personne.nom}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+
+<div>
+        <h1>Suppression de la personne {{personne.prenom}} {{personne.nom}}</h1>
+</div>
+<form class="form" style="margin-bottom:20px" method="POST" action="{{url_for('suppression_personne', id=personne.id)}}">
+ <div class="text-center" style="place-content:center">
+      <div>
+          <p value="{{personne.id}}">Êtes-vous sûr de vouloir supprimer cette personne ?</p>
+      </div>
+      <div>
+           <button type="submit" class="btn btn-info text-center">Confirmer</button>
+      </div>
+      </div>
+</form>
+
+<p><a href="{{url_for('personne', id=personne.id)}}">Retour sur la page de la personne</a></p>
+<p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+
+{% endblock %}

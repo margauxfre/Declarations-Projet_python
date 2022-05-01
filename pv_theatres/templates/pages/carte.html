@@ -1,0 +1,44 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}| Carte de localisation des théâtres {%endblock%}
+
+{% block corps %}
+<h1 style="margin-bottom:20px; margin-top:20px;">Carte de localisation des théâtres</h1>
+
+<div id="map" style="height: 400px; margin-bottom:20px;">
+
+<!-- on met en place le javascript pour le fonctionnement de la carte -->
+<script src="../static/js/leaflet.js"></script>
+	<script type="text/javascript">
+            // On initialise la latitude et la longitude de Paris (centre de la carte)
+            var lat = 48.852969;
+            var lon = 2.349903;
+            var macarte = null;
+            // Fonction d'initialisation de la carte
+            function initMap() {
+                // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
+                macarte = L.map('map').setView([lat, lon], 12);
+                // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
+                L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                    // Il est toujours bien de laisser le lien vers la source des données
+                    attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+                    minZoom: 1,
+                    maxZoom: 20
+                }).addTo(macarte);
+
+                {% for salle in salles %}
+                // Nous ajoutons un marqueur
+                var marker = L.marker([{{salle.latitude}}, {{salle.longitude}}]).addTo(macarte);
+                marker.bindPopup("<a href=\"{{url_for('salle_theatre', id=salle.id)}}\">{{salle.nom_salle}}</a>");
+                {% endfor %}
+            }
+
+            window.onload = function(){
+		// Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
+		initMap();
+            };
+        </script>
+</div>
+
+    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if theatre %}| Théâtre : {{theatre.institution}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+    {% if theatre %}
+        <h1>{{theatre.institution}}</h1>
+
+        <p> Voici les salles occupées par l'institution : </p>
+        {% if salles %}
+        <ul>
+            {% for salle in salles %}
+            <li>{{salle.nom_salle}}  ({{salle.dates_occupation_salle}})</li>
+            {% endfor %}
+        </ul>
+
+        {% endif %}
+
+        <p> Voici les procès-verbaux des vols déclarés dans ce théâtre : </p>
+        {% for proces_verbal in proces_verbaux %}
+            <li><a href="{{url_for('proces_verbal', id=proces_verbal.id)}}">{{proces_verbal.date_pv}}</a></li>
+            {% endfor %}
+        </ul>
+
+        <p><a href="{{url_for('theatre_liste')}}">Retour à la liste des théâtres</a>
+
+    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+    {% endif %}
+
+{% endblock %}
